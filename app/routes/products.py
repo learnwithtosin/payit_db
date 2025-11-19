@@ -79,7 +79,7 @@ def get_product_by_user_id(user_id: int, db: Session = Depends(get_db)):
 
 @router.put("/products/{product_id}", response_model=ProductResponse)
 def update_product(product_id: int, product: ProductCreate, db: Session = Depends(get_db)):
-    product_update = db.query(Product).filter(Product.user_id == user_id).first()
+    product_update = db.query(Product).filter(Product.id == product_id).first()
     if not product_update:
         raise HTTPException(
             status_code = status.HTTP_404_NOT_FOUND,
