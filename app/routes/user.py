@@ -6,6 +6,7 @@ from app.database import engine, get_db
 from sqlalchemy.orm import Session, defer
 from ..schemas.user import UserCreate, UserResponse, UserUpdate
 from ..models.user_model import User
+from ..middlewares.auth import AuthMiddleware
 from fastapi import APIRouter
 import bcrypt
 import logging
@@ -17,6 +18,11 @@ router = APIRouter(
     prefix="/users",
     tags=["users"]
 )
+
+
+@router.get("/me", status_code=status.HTTP_200_OK, response_model=UserResponse)
+def get_current_user(current_user = Depends(AuthMiddleware), db: Session = Depends(get_db)):
+    return current_user
 
 
 @router.post("/users", response_model=UserResponse)
