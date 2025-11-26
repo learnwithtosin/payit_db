@@ -1,7 +1,15 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status, HTTPException
+from fastapi.staticfiles import StaticFiles
 from .database import engine
 from .models.base import Base
-from app.routes import user, products
+from .models.user_model import User
+from .models.products import Product
+from .models.farmers import Farmer
+from .models.buyers import Buyer 
+from .models.orders import Order
+from .models.product_category import ProductCategory
+from sqlalchemy.exc import OperationalError
+from .routes import user, products, auth, orders
 import logging
 import time
 
@@ -9,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-# Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="PayIt App",
@@ -40,6 +48,8 @@ def on_startup():
 
 app.include_router(user.router)
 app.include_router(products.router)
+app.include_router(auth.router)
+app.include_router(orders.router)
 
 @app.get("/")
 def home():

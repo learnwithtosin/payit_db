@@ -15,15 +15,20 @@ class CategoryEnum(str, Enum):
     farmer = "farmer"
 
 
-class UserCreate(BaseModel):
+class User(BaseModel):
     name: str = Field(min_length=4, max_length=30)
     phone: str = Field(min_length=11)
     email: EmailStr
     password: str = Field(min_length=6, max_length= 24)
     confirm_password: str
     gender: GenderEnum
-    category: CategoryEnum
     location: str = Field(min_length=3)
+
+    @validator("name", "location")
+    def not_empty(cls, v):
+        if not v or not v.strip():
+            raise ValueError("Cannot be empty")
+        return v
 
     @field_validator("password")
     def validate_password(cls, value):
@@ -57,7 +62,6 @@ class UserResponse(BaseModel):
     phone: str
     email: str
     gender: GenderEnum
-    category: CategoryEnum
     location: str
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
@@ -85,5 +89,4 @@ class UserUpdate(BaseModel):
     class Config:
         from_attributes = True
     
-    # class Config:
-    #     orm_mode = True
+    

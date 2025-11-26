@@ -8,3 +8,5 @@ pydantic[email]
 python-multipart
 pydantic
 bcrypt
+python-jose
+aiofiles
