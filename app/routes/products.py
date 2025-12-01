@@ -121,6 +121,27 @@ def raiseError(e):
         }
     )
 
+    try: 
+        new_product = products.Product(
+        farmer_id = farmer_id,
+        category_id = category_id,
+        image = image,
+        name = name,
+        unit_price = unit_price,
+        quantity = quantity
+        )
+
+        db.add(new_product)
+        db.commit()
+        db.refresh(new_product)
+
+        return {
+            "success": True,
+            "data": new_product,
+            "message": "Product created successfully"
+        }
+    except pymysql.DataError as e:
+        raiseError("Failed to create product successfully")
 
 # @router.post("/products")
 # def create_product(product: ProductCreate, current_user=Depends(AuthMiddleware), db: Session = Depends(get_db)):

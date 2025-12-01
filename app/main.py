@@ -9,9 +9,12 @@ from .models.buyers import Buyer
 from .models.orders import Order
 from .models.product_category import ProductCategory
 from sqlalchemy.exc import OperationalError
-from .routes import user, products, auth, orders
+from .routes import user, products, auth, orders, oauth
+from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 import logging
 import time
+import os
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -49,7 +52,30 @@ def on_startup():
 app.include_router(user.router)
 app.include_router(products.router)
 app.include_router(auth.router)
+app.include_router(oauth.router)
 app.include_router(orders.router)
+
+
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=os.getenv,
+    # Set to True if your application is served over HTTPS
+    https_only=False,
+    # Customize other parameters like 'max_age', 'path', 'domain', etc.
+)
+
+origins = (
+    "http://localhost:8000"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins, # Allows specific origins
+    allow_credentials=True, # Allows cookies to be included in cross-site requests
+    allow_methods=["*"], # Allows all methods (GET, POST, PUT, PATCH DELETE)
+    allow_headers=["*"], # Allows all headers, including "Authorization"
+)
+
 
 @app.get("/")
 def home():
