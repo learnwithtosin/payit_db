@@ -1,5 +1,6 @@
 from sqlalchemy import Integer, Column, String, DateTime, Enum
-from ..schemas.user import GenderEnum, CategoryEnum
+from schemas.user import GenderEnum, CategoryEnum
+from .enums import RoleEnum, Reputation
 from .base import Base
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
@@ -15,6 +16,8 @@ class User(Base):
     email = Column(String(100), unique=True, nullable=False, index=True)
     password = Column(String(100), nullable=False)
     gender = Column(Enum(GenderEnum.male.value, GenderEnum.female.value), nullable=False) # create Enum
+    role = Column(Enum(RoleEnum), default=RoleEnum.buyer, nullable=False)
+    verified = Column(Enum(Reputation), default=Reputation.unverified, nullable=False)
     location = Column(String(255), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)

@@ -1,14 +1,14 @@
 from fastapi import FastAPI, HTTPException, status, Depends, Request
 from sqlalchemy.orm import Session
-from ..database import get_db
-from ..models.user_model import User
-from ..schemas.auth import LoginRequest, LoginResponse
-from ..auth.jwt import create_access_token
+from database import get_db
+from models.user_model import User
+from schemas.auth import LoginRequest, LoginResponse
+from auth.jwt import create_access_token
 from fastapi.responses import RedirectResponse
-from ..config.oauth import oauth
-from ..models.enums import GenderEnum
+from config.oauth import oauth
+from models.enums import GenderEnum
 from datetime import datetime
-from ..config.oauth import AUTH0_DOMAIN, AUTH0_CLIENT_ID
+from config.oauth import AUTH0_DOMAIN, AUTH0_CLIENT_ID
 from fastapi import APIRouter
 import logging
 import bcrypt
@@ -41,15 +41,7 @@ async def callback(request: Request, db: Session = Depends(get_db)):
         user_info = token.get("userinfo")
         user = db.query(User).filter((user_info["email"] == User.email)).first()
 
-    # id = Column(Integer, primary_key=True, nullable=False, index=True)
-    # name = Column(String(50), nullable=False)
-    # phone = Column(String(11), unique=True, nullable=False)
-    # email = Column(String(100), unique=True, nullable=False, index=True)
-    # password = Column(String(100), nullable=False)
-    # gender = Column(Enum(GenderEnum.male.value, GenderEnum.female.value), nullable=False) # create Enum
-    # location = Column(String(255), nullable=False)
-    # created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
-    # updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+   
 
         if not user:
             user = User(

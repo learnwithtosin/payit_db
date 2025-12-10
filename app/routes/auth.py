@@ -1,9 +1,9 @@
 from fastapi import FastAPI, HTTPException, status, Depends
 from sqlalchemy.orm import Session
-from ..database import get_db
-from ..models.user_model import User
-from ..schemas.auth import LoginRequest, LoginResponse
-from ..auth.jwt import create_access_token
+from database import get_db
+from models.user_model import User
+from schemas.auth import LoginRequest, LoginResponse
+from auth.jwt import create_access_token
 from datetime import datetime
 from fastapi import APIRouter
 import logging

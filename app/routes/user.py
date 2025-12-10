@@ -2,11 +2,11 @@ from fastapi import FastAPI, HTTPException, status, Depends
 from pydantic import BaseModel
 from datetime import datetime
 from typing import List, Dict, Optional
-from app.database import engine, get_db
+from database import engine, get_db
 from sqlalchemy.orm import Session, defer
-from ..schemas.user import User, UserResponse, UserUpdate
-from ..models import user_model 
-from ..middlewares.auth import AuthMiddleware
+from schemas.user import User, UserResponse, UserUpdate
+from models import user_model 
+from middlewares.auth import AuthMiddleware
 from fastapi import APIRouter
 import bcrypt
 import logging

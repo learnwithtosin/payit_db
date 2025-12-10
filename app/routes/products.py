@@ -2,11 +2,12 @@ from fastapi import FastAPI, HTTPException, status, Depends, File, UploadFile, F
 from pydantic import BaseModel
 from datetime import datetime
 from typing import List, Dict, Optional
-from app.database import engine, get_db
+from database import engine, get_db
 from sqlalchemy.orm import Session, defer
-from ..schemas.schemas_product import ProductCreate, ProductResponse
-from ..models import products, user_model, farmers, buyers, product_category 
-from ..middlewares.auth import AuthMiddleware
+from schemas.schemas_product import ProductCreate, ProductResponse
+from models import products, user_model, farmers, buyers, product_category 
+from middlewares.auth import AuthMiddleware
+from libs.cloudinary import upload_image
 from fastapi import APIRouter
 from uuid import uuid4
 import logging

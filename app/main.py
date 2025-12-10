@@ -1,15 +1,15 @@
 from fastapi import FastAPI, status, HTTPException
 from fastapi.staticfiles import StaticFiles
-from .database import engine
-from .models.base import Base
-from .models.user_model import User
-from .models.products import Product
-from .models.farmers import Farmer
-from .models.buyers import Buyer 
-from .models.orders import Order
-from .models.product_category import ProductCategory
+from database import engine
+from models.base import Base
+from models.user_model import User
+from models.products import Product
+from models.farmers import Farmer
+from models.buyers import Buyer 
+from models.orders import Order
+from models.product_category import ProductCategory
 from sqlalchemy.exc import OperationalError
-from .routes import user, products, auth, orders, oauth
+from routes import user, products, auth, orders, oauth, upload
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 import logging
@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-Base.metadata.create_all(bind=engine)
+# Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="PayIt App",
@@ -53,6 +53,7 @@ app.include_router(user.router)
 app.include_router(products.router)
 app.include_router(auth.router)
 app.include_router(oauth.router)
+app.include_router(upload.router)
 app.include_router(orders.router)
 
 

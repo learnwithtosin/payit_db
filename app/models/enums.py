@@ -4,6 +4,14 @@ class GenderEnum(str, Enum):
     male = "MALE"
     female = "FEMALE"
 
+class RoleEnum(str, Enum):
+    buyer = "buyer"
+    farmer = "farmer"
+
+class Reputation(str, Enum):
+    verified = "verified"
+    unverified = "unverified"
+
 class CategoryEnum(str, Enum):
     tubers = "tubers"
     fruits = "fruits"

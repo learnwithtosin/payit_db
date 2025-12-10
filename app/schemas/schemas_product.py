@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field 
 from decimal import Decimal
 from datetime import datetime
-from ..models.enums import CategoryEnum
+from models.enums import CategoryEnum
 
 class ProductCreate(BaseModel):
     name: str = Field(min_length=3)

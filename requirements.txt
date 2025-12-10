@@ -10,7 +10,8 @@ pydantic
 bcrypt
 python-jose
 aiofiles
-
+cloudinary
 authlib
 httpx
 itsdangerous
+alembic
